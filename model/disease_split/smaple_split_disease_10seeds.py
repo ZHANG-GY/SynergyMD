@@ -9,11 +9,11 @@ import numpy as np
 
 # =================配置区域=================
 # 输入文件路径
-INPUT_FILE = r'D:\数据\sample\positive sample21213.npy'
+INPUT_FILE = r'../../data/sample/positive sample21213.npy'
 
 # 输出文件路径
-OUTPUT_TRAIN_FILE = r'D:\数据\sample\LODOCV_train_10seeds.npy'
-OUTPUT_TEST_FILE = r'D:\数据\sample\LODOCV_test_10seeds.npy'
+OUTPUT_TRAIN_FILE = r'LODOCV_train_disease_10seeds.npy'
+OUTPUT_TEST_FILE = r'LODOCV_test_disease_10seeds.npy'
 # =========================================
 
 # 1. 读取数据
