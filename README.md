@@ -51,7 +51,9 @@ To rigorously evaluate **SynergyMD**, we implement three data partitioning strat
 
 ### Usage Example
 You can run different experimental scenarios directly from the project root directory.
+
 Note: Each script is pre-configured with the best hyperparameters based on our validation tests.
+
 For example, you can run `synergyMD_random.py` to evaluate the model's ability on randomly shuffled miRNA-disease associations for ten random seeds.
 ```bash
 python models/random_split/synergyMD_random.py.py
