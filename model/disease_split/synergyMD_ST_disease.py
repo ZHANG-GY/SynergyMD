@@ -32,26 +32,25 @@ transfer = StandardScaler()
 train_data_dict  = np.load(r'D:\数据\sample\LODOCV_train_10seeds.npy',allow_pickle=True).item()
 test_data_dict  = np.load(r'D:\数据\sample\LODOCV_test_10seeds.npy',allow_pickle=True).item()
 
-
-mir_gcn_fea = np.load(r"D:\数据\miRNA-gene\mir_gcn3.npy")
-mir_seq_fea = np.load(r"C:\Users\13700KF\RNABERT\human_miRNA_fea.npy")
+mir_gcn_fea = np.load("../../data/miRNA graph features.npy")
+mir_seq_fea = np.load("../../data/miRNA sequence features.npy")
 mir_seq_fea = transfer.fit_transform(mir_seq_fea)
-with open(r"D:\数据\mirbase（miRNA）\human_miRNA_name1917.pkl",'rb') as f:
+with open("../../data/miRNA sequence names.pkl",'rb') as f:
     mir_name = pickle.load(f)
     
-with open(r"D:\数据\miRNA-gene\miRNA_name_gae_1602.pkl",'rb') as f:
+with open("../../data/miRNA graph names.pkl",'rb') as f:
     miRNA_name_1602 = pickle.load(f)
 mir_gcn_fea = mir_gcn_fea[:1602]
 
-dis_gcn_fea = np.load(r"D:\数据\disease-gene\dis_gcn3.npy")
+dis_gcn_fea = np.load("../../data/disease graph features.npy")
 dis_gcn_fea = dis_gcn_fea[:7732]
 dis_gcn_fea = transfer.fit_transform(dis_gcn_fea)
 
-with open(r"D:\数据\disease-gene\mesh_7732.pkl",'rb') as f:
+with open("../../data/disease graph names.pkl",'rb') as f:
     mesh_name_7732 = pickle.load(f)
-with open(r"D:\数据\disease-gene\mesh_name_gae_7053.pkl",'rb') as f:
+with open("../../data/disease text names.pkl",'rb') as f:
     mesh_name_7053 = pickle.load(f)
-dis_txt_fea = np.load(r"D:\数据\disease-gene\dis_defn_fea7053.npy")
+dis_txt_fea = np.load("../../data/disease text features.npy")
 
 dis_gcn_idx = [mesh_name_7732.index(i) for i in mesh_name_7053]
 dis_gcn_fea = dis_gcn_fea[dis_gcn_idx]
