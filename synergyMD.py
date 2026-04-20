@@ -53,7 +53,7 @@ dis_gcn_fea = np.load("data/disease graph features.npy")
 dis_gcn_fea = dis_gcn_fea[:7732]
 dis_gcn_fea = transfer.fit_transform(dis_gcn_fea)
 
-with open("data/disease graph features.pkl",'rb') as f:
+with open("data/disease graph names.pkl",'rb') as f:
     mesh_name_7732 = pickle.load(f)
 with open("data/disease text names.pkl",'rb') as f:
     mesh_name_7053 = pickle.load(f)
