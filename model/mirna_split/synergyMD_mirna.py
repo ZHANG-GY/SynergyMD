@@ -29,8 +29,8 @@ torch.backends.cudnn.deterministic = True
 
 transfer = StandardScaler()
 
-train_data_dict  = np.load(r'D:\数据\sample\LOMOCV_mirna_train_10seeds.npy',allow_pickle=True).item()
-test_data_dict  = np.load(r'D:\数据\sample\LOMOCV_mirna_test_10seeds.npy',allow_pickle=True).item()
+train_data_dict  = np.load(r'LOMOCV_mirna_train_10seeds.npy',allow_pickle=True).item()
+test_data_dict  = np.load(r'LOMOCV_mirna_test_10seeds.npy',allow_pickle=True).item()
 
 skf1 = KFold(n_splits=5,shuffle=True)
 mir_gcn_fea = np.load("../../data/miRNA graph features.npy")
@@ -399,86 +399,4 @@ for seed in range(10):
     final_test_pre_list.append(test_pre_list)
     final_test_f1_list.append(test_f1_list)
     final_test_rec_list.append(test_rec_list)
-    
-    import matplotlib.pyplot as plt
-    fpr, tpr, thresholds_keras = roc_curve(test_label.tolist(), pred_y.detach().cpu().numpy())
-    precision, recall, thresholds = precision_recall_curve(test_label.tolist(), pred_y.detach().cpu().numpy())
-    ap = average_precision_score(test_label.tolist(), pred_y.detach().cpu().numpy())
-    fpr_list.append(fpr)
-    tpr_list.append(tpr)
-    precision_list.append(precision)
-    recall_list.append(recall)
-    ap_lsit.append(ap)
-    # plt.plot(fpr, tpr, label='ROC NO.{}(area = {:.3f})'.format(fold,auc3))
-    # plt.plot([0, 1], [0, 1], 'k--')
-    # # plt.plot(fpr, tpr, label='Keras (area = {:.3f})'.format(auc))
-    # plt.xlabel('False positive rate')
-    # plt.ylabel('True positive rate')
-    # plt.title('ROC curve')
-    # plt.legend(loc='best')
-    # fold += 1
 
-
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
-for i in range(10):
-    ax1.plot(fpr_list[i], tpr_list[i], lw=1.5,  alpha=0.6, label='ROC NO.{}(AUC = {:.3f})'.format(i+1,test_auc_all[i]))
-    ax2.plot(recall_list[i], precision_list[i], lw=1.5, alpha=0.6,
-             label='PR NO.{}(AP={:.3f})'.format(i+1,ap_lsit[i]))
-    # plt.plot([0, 1], [0, 1], 'k--')
-    # # plt.plot(fpr, tpr, label='Keras (area = {:.3f})'.format(auc))
-    # plt.xlabel('False positive rate')
-    # plt.ylabel('True positive rate')
-    # plt.title('ROC curve')
-    # plt.legend(loc='best')
-    
-ax1.plot([0, 1], [0, 1], 'k--', lw=1)  # 添加对角线
-ax1.set_xlim([-0.02, 1.02])
-ax1.set_ylim([-0.02, 1.02])
-ax1.tick_params(axis='both', labelsize=14)
-ax1.set_xlabel('False positive rate',fontsize=14)
-ax1.set_ylabel('True positive rate',fontsize=14)
-ax1.set_title('ROC curve')
-ax1.legend(loc='lower right', fontsize=14)
-ax1.grid(True, linestyle='--', alpha=0.6)
-ax1.text(-0.1, 1.05, '(a)', transform=ax1.transAxes, 
-         fontsize=20, fontweight='bold')
-
-# ===== 右图设置 =====
-ax2.set_xlim([-0.02, 1.02])
-ax2.set_ylim([-0.02, 1.02])
-ax2.tick_params(axis='both', labelsize=14)
-ax2.set_xlabel('Recall',fontsize=14)
-ax2.set_ylabel('Precision',fontsize=14)
-ax2.set_title('Precision-Recall curve',fontsize=14)
-ax2.legend(loc='lower left', fontsize=14)
-ax2.grid(True, linestyle='--', alpha=0.6)
-ax2.text(-0.1, 1.05, '(b)', transform=ax2.transAxes, 
-         fontsize=20, fontweight='bold')
-
-plt.tight_layout()
-plt.show()
-    
-test_acc_all = [i[-1]for i in final_test_acc_list]
-test_pre_all = [i[-1]for i in final_test_pre_list]
-test_f1_all = [i[-1]for i in final_test_f1_list]
-test_rec_all = [i[-1]for i in final_test_rec_list]
-
-mean_test_acc = sum(test_acc_all)/len(test_acc_all)
-mean_test_auc = sum(test_auc_all)/len(test_auc_all)
-mean_test_pre = sum(test_pre_all)/len(test_pre_all)
-mean_test_f1 = sum(test_f1_all)/len(test_f1_all)
-mean_test_rec = sum(test_rec_all)/len(test_rec_all)
-
-
-with open(r'D:\数据\sample\10times all fea 0.1mir fpr.pkl','wb')as f:
-    pickle.dump(fpr_list,f)  
-with open(r'D:\数据\sample\10times all fea 0.1mir tpr.pkl','wb')as f:
-    pickle.dump(tpr_list,f)  
-with open(r'D:\数据\sample\10times all fea 0.1mir precision.pkl','wb')as f:
-    pickle.dump(precision_list,f)  
-with open(r'D:\数据\sample\10times all fea 0.1mir recall.pkl','wb')as f:
-    pickle.dump(recall_list,f)   
-with open(r'D:\数据\sample\10times all fea 0.1mir ap.pkl','wb')as f:
-    pickle.dump(ap_lsit,f)  
-with open(r'D:\数据\sample\10times all fea 0.1mir auc.pkl','wb')as f:
-    pickle.dump(test_auc_all,f)   
