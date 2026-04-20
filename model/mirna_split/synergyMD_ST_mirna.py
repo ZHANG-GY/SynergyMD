@@ -30,8 +30,8 @@ torch.backends.cudnn.deterministic = True
 
 transfer = StandardScaler()
 
-train_data_dict  = np.load(r'D:\数据\sample\LOMOCV_mirna_train_10seeds.npy',allow_pickle=True).item()
-test_data_dict  = np.load(r'D:\数据\sample\LOMOCV_mirna_test_10seeds.npy',allow_pickle=True).item()
+train_data_dict  = np.load(r'LOMOCV_mirna_train_10seeds.npy',allow_pickle=True).item()
+test_data_dict  = np.load(r'LOMOCV_mirna_test_10seeds.npy',allow_pickle=True).item()
 
 skf1 = KFold(n_splits=5,shuffle=True)
 mir_gcn_fea = np.load("../../data/miRNA graph features.npy")
