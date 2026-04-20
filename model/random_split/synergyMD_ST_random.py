@@ -37,27 +37,27 @@ torch.backends.cudnn.deterministic = True
 transfer = StandardScaler()
 
 label = np.concatenate((np.ones(21213),np.zeros(21213)))
-sample = np.load('data/miRNA-disease associations.npy')
+sample = np.load('../../data/miRNA-disease associations.npy')
 skf1 = KFold(n_splits=5,shuffle=True)
-mir_gcn_fea = np.load("data/miRNA graph features.npy")
-mir_seq_fea = np.load("data/miRNA sequence features.npy")
+mir_gcn_fea = np.load("../../data/miRNA graph features.npy")
+mir_seq_fea = np.load("../../data/miRNA sequence features.npy")
 mir_seq_fea = transfer.fit_transform(mir_seq_fea)
-with open("data/miRNA sequence names.pkl",'rb') as f:
+with open("../../data/miRNA sequence names.pkl",'rb') as f:
     mir_name = pickle.load(f)
 
-with open("data/miRNA graph names.pkl",'rb') as f:
+with open("../../data/miRNA graph names.pkl",'rb') as f:
     miRNA_name_1602 = pickle.load(f)
 mir_gcn_fea = mir_gcn_fea[:1602]
 
-dis_gcn_fea = np.load("data/disease graph features.npy")
+dis_gcn_fea = np.load("../../data/disease graph features.npy")
 dis_gcn_fea = dis_gcn_fea[:7732]
 dis_gcn_fea = transfer.fit_transform(dis_gcn_fea)
 
-with open("data/disease graph features.pkl",'rb') as f:
+with open("../../data/disease graph features.pkl",'rb') as f:
     mesh_name_7732 = pickle.load(f)
-with open("data/disease text names.pkl",'rb') as f:
+with open("../../data/disease text names.pkl",'rb') as f:
     mesh_name_7053 = pickle.load(f)
-dis_txt_fea = np.load("data/disease text features.npy")
+dis_txt_fea = np.load("../../data/disease text features.npy")
 dis_gcn_idx = [mesh_name_7732.index(i) for i in mesh_name_7053]
 dis_gcn_fea = dis_gcn_fea[dis_gcn_idx]
 
