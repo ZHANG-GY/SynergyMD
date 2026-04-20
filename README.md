@@ -1,2 +1,3 @@
-# SynergyMD
-miRNA-disease association prediction
+# Multimodal Contrastive Learning with Graph Networks and Large Language Models for miRNA-Disease Association Prediction
+
+## Software Requirements
