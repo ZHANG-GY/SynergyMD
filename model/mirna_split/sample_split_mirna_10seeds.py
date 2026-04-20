@@ -16,10 +16,10 @@ import numpy as np
 
 # =================配置区域=================
 # 输入文件路径 (确保是 [miRNA, Disease] 格式的二维数组)
-INPUT_FILE = r'D:\数据\sample\positive sample21213.npy'
-# 输出文件路径 (文件名最好区分一下是 mirna split)
-OUTPUT_TRAIN_FILE = r'D:\数据\sample\LOMOCV_mirna_train_10seeds.npy'
-OUTPUT_TEST_FILE = r'D:\数据\sample\LOMOCV_mirna_test_10seeds.npy'
+INPUT_FILE = r'../../data/positive sample21213.npy'
+
+OUTPUT_TRAIN_FILE = r'LOMOCV_mirna_train_10seeds.npy'
+OUTPUT_TEST_FILE = r'LOMOCV_mirna_test_10seeds.npy'
 # =========================================
 
 # 1. 读取数据
