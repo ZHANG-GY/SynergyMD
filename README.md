@@ -29,10 +29,11 @@ The data folder includes biological entity names and multi-modal features (Seque
 ├── miRNA graph features.npy       # Graph features of 1602 miRNAs from GCN
 ├── miRNA sequence names.pkl       # Names of 1917 miRNAs
 ├── miRNA sequence features.npy    # Sequence features of 1917 miRNAs from RNABERT
-├──disease graph names.pkl         # IDs of 7732 diseases (MeSH)
+├── disease graph names.pkl        # IDs of 7732 diseases (MeSH)
 ├── disease graph features.npy     # Graph features of 7732 diseases from GCN
 ├── disease text names.pkl         # IDs of 7053 diseases (MeSH)
 ├── disease text features.npy      # Text features of 7053 diseases from BioLinkBERT
+├── positive sample21213.npy       # 21213 positive miRNA-disease associations from HMDD v4.0
 └──miRNA-disease associations.npy  # 42626 miRNA-disease associations from HMDD v4.0 (including positive samples and negative samples)
 ```
 ## Model Implementations & Evaluation
@@ -43,18 +44,46 @@ To rigorously evaluate **SynergyMD**, we implement three data partitioning strat
 
 ### 2. Disease-based Split (`/models/disease_split`)
 - **Purpose**: Simulates "Cold-start" scenarios for diseases. It ensures that diseases in the test set are completely unseen during training, testing the model's generalization to novel diseases.
-- **Files**: `synergyMD_disease.py`, `synergyMD_ST_disease.py`.
+- **Files**: `sample_split_disease_10seeds.py` (split the dataset), `synergyMD_disease.py`, `synergyMD_ST_disease.py`.
 
 ### 3. miRNA-based Split (`/models/mirna_split`)
 - **Purpose**: Evaluates the model's ability to predict associations for newly discovered miRNAs that have no prior association data in the training set.
-- **Files**: `synergyMD_mirna.py`, `synergyMD_ST_mirna.py`.
+- **Files**: `sample_split_mirna_10seeds.py` (split the dataset), `synergyMD_mirna.py`, `synergyMD_ST_mirna.py`.
 
+Note: In each folder, synergyMD denotes the model utilizing all features, while synergyMD_ST indicates the model utilizing only miRNA sequence features and disease text features.
 ### Usage Example
 You can run different experimental scenarios directly from the project root directory.
 
 Note: Each script is pre-configured with the best hyperparameters based on our validation tests.
 
-For example, you can run `synergyMD_random.py` to evaluate the model's ability on randomly shuffled miRNA-disease associations for ten random seeds.
+For example, you can run `synergyMD_random.py` or `synergyMD_ST_random.py` to evaluate the model's ability on randomly shuffled miRNA-disease associations for ten random seeds.
 ```bash
-python models/random_split/synergyMD_random.py.py
+python models/random_split/synergyMD_random.py
+python models/random_split/synergyMD_ST_random.py
+```
+
+Note: For both Disease-based Split and miRNA-based Split, the experiments are divided into two stages: data splitting and model training. Please strictly follow the sequence below:
+#### Disease-based Split
+This scheme is used to validate the model's predictive capability on entirely new diseases.
+##### Step 1: Generate Split Datasets
+Run the script to split the training and test sets based on disease nodes, and save them to the specified directory:
+```bash
+python models/disease_split/sample_split_disease_10seeds.py
+```
+##### Step 2: Run Model Training
+After confirming that the data has been successfully saved, run the training script:
+```bash
+python models/disease_split/synergyMD_disease.py
+python models/disease_split/synergyMD_ST_disease.py
+```
+#### miRNA-based Split
+This scheme is used to validate the model's predictive capability for newly discovered miRNAs.
+##### Step 1: Generate Split Datasets
+```bash
+python models/mirna_split/sample_split_mirna_10seeds.py
+```
+##### Step 2: Run Model Training
+```bash
+python models/disease_split/synergyMD_mirna.py
+python models/disease_split/synergyMD_ST_mirna.py
 ```
